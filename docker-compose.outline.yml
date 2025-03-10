@@ -16,6 +16,7 @@ services:
       - OIDC_USERINFO_URI=${OIDC_USERINFO_URI}
       - OIDC_DISPLAY_NAME=${OIDC_DISPLAY_NAME}
       - ALLOWED_DOMAINS=${OIDC_ALLOWED_DOMAINS}
+        #      - ALLOWED_DOMAINS=*
       # DB
       - DATABASE_URL=${DATABASE_URL}
       - PGSSLMODE=${PGSSLMODE}
@@ -63,7 +64,8 @@ services:
       - "traefik.http.routers.outline-https-assets.middlewares=outline-gzip"
       - "traefik.http.routers.outline-https-assets.entrypoints=https"
       - "traefik.http.routers.outline-https-assets.tls=true"
-      - "traefik.http.routers.outline-https-assets.rule=Host(`${DOCKER_OUTLINE_HOSTNAME}`) && PathPrefix(`/static`, `/api`)"
+        #      - "traefik.http.routers.outline-https-assets.rule=Host(`${DOCKER_OUTLINE_HOSTNAME}`) && PathPrefix(`/static`, `/api`)"
+      - "traefik.http.routers.outline-https-assets.rule=Host(`${DOCKER_OUTLINE_HOSTNAME}`) && (PathPrefix(`/static`) || PathPrefix(`/api`))"
 
       - "traefik.http.services.outline-backend.loadbalancer.server.scheme=http"
       - "traefik.http.services.outline-backend.loadbalancer.server.port=3000"
